@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class GlidingState : PlayerState
 {
@@ -9,7 +10,7 @@ public class GlidingState : PlayerState
     private Transform rightController;
 
     public float threshold = 0.1f; // 差异阈值
-    public float forceMagnitude = 0.2f; // 施加的力大小
+    public float forceMagnitude = 0.25f; // 施加的力大小
 
     public GlidingState(MovementSM stateMachine) : base("GlidingState", stateMachine)
     {
@@ -19,6 +20,8 @@ public class GlidingState : PlayerState
     public override void EnterState()
     {
         base.EnterState();
+        _sm.player.GetComponent<ActionBasedContinuousTurnProvider>().enabled = false;
+        _sm.player.GetComponent<ActionBasedContinuousMoveProvider>().enabled = false;
         leftController = _sm.leftController;
         rightController = _sm.rightController;
         Rigidbody rigidbody = _sm.player.GetComponent<Rigidbody>();
@@ -50,6 +53,8 @@ public class GlidingState : PlayerState
         // 处理碰撞事件
         if (collision.gameObject.CompareTag("Ground"))
         {
+            _sm.player.GetComponent<ActionBasedContinuousTurnProvider>().enabled = true;
+            _sm.player.GetComponent<ActionBasedContinuousMoveProvider>().enabled = true;
             playerStateMachine.ChangeState(_sm.idleState);
         }
     }
@@ -61,6 +66,8 @@ public class GlidingState : PlayerState
 
     public void TriggerUp()
     {
+        _sm.player.GetComponent<ActionBasedContinuousTurnProvider>().enabled = true;
+        _sm.player.GetComponent<ActionBasedContinuousMoveProvider>().enabled = true;
         playerStateMachine.ChangeState(_sm.flappingState);
     }
 

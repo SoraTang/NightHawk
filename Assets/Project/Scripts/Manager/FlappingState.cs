@@ -3,9 +3,9 @@ using UnityEngine;
 public class FlappingState : PlayerState
 {
     private MovementSM _sm;
-    private float flapForce = 3f;
+    private float flapForce = 4f;
     private Vector3 flapForceDirection = new Vector3(1f, 3f, 0f).normalized;
-    private float flapUpwardForce = 1.2f;
+    private float flapUpwardForce = 1.3f;
     public float maxSpeed = 8f;
 
     private Transform leftController;
@@ -15,7 +15,7 @@ public class FlappingState : PlayerState
     private Vector3 previousPosition;
     private bool leftSwing = false;
     private bool rightSwing = false;
-    private float swingDelay = 0.7f;
+    private float swingDelay = 0.6f;
     private float lastSwingTime = 0f;
     private Quaternion lastLeftRotation;
     private Quaternion lastRightRotation;
