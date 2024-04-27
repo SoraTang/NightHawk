@@ -22,8 +22,9 @@ public class IdleState : PlayerState
     private float lastSwingTime = 0f;
     private Quaternion lastLeftRotation;
     private Quaternion lastRightRotation;
-    private float xRotationThreshold = 15f; // 挥动检测阈值
+    private float xRotationThreshold = 12f; // 挥动检测阈值
     
+    private float gravity = 0.9f;
 
     public IdleState(MovementSM stateMachine) : base("IdleState", stateMachine)
     {
@@ -43,6 +44,8 @@ public class IdleState : PlayerState
     public override void UpdateLogic()
     {
         base.UpdateLogic();
+        Rigidbody rigidbody = _sm.player.GetComponent<Rigidbody>();
+        rigidbody.AddForce(Vector3.down * gravity, ForceMode.Acceleration);
         flapForceDirection = _sm.player.forward;
         // 检测挥动触发 Flap
         DetectSwing();

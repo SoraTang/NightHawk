@@ -28,6 +28,8 @@ public class MovementSM : PlayerStateMachine
         walkingState = new WalkingState(this);
         glidingState = new GlidingState(this);
         flappingState = new FlappingState(this);
+
+
     }
 
     protected override PlayerState GetInitialState()

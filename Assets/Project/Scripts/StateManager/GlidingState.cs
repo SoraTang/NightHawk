@@ -10,11 +10,13 @@ public class GlidingState : PlayerState
     private Transform rightController;
 
     private Vector3 glideDeriction;
+    private float glideFoward = 0.2f;
 
     public float threshold = 0.1f; // 差异阈值
-    public float forceMagnitude = 0.27f; // 施加的力大小
+    public float forceMagnitude = 0.28f; // 施加的力大小
 
-    public float rotationSpeed = 6f; // 旋转速度（每秒度）
+    public float rotationSpeed = 8f; // 旋转速度（每秒度）
+    public float maxSpeed = 9f;
 
     public GlidingState(MovementSM stateMachine) : base("GlidingState", stateMachine)
     {
@@ -41,6 +43,17 @@ public class GlidingState : PlayerState
         InputEvent.Instance.onRightTriggerUp += TriggerUp;
         InputEvent.Instance.onLeftTriggerDown -= TriggerUp;
         InputEvent.Instance.onRightTriggerDown -= TriggerUp;
+
+    Rigidbody rigidbody = _sm.player.GetComponent<Rigidbody>();
+    Vector3 currentVelocity = rigidbody.velocity;
+    if (currentVelocity.magnitude > maxSpeed)
+    {
+            // 计算速度在单位方向上的向量
+            Vector3 normalizedVelocity = currentVelocity.normalized;
+
+            // 将速度限制在阈值内
+            rigidbody.velocity = normalizedVelocity * maxSpeed;
+    }
     }
 
     public override void UpdatePhysics()
@@ -49,6 +62,10 @@ public class GlidingState : PlayerState
         // 给物体施加持续的浮力
         _sm.player.GetComponent<Rigidbody>().AddForce(Vector3.down * glideForce, ForceMode.Acceleration);
         AddForce();
+
+        Rigidbody rigidbody = _sm.player.GetComponent<Rigidbody>();
+        // 给物体施加重力
+        rigidbody.AddForce(_sm.player.forward * glideFoward, ForceMode.Acceleration);
     }
 
     public void HandleCollisionEnter(Collision collision)

@@ -8,7 +8,7 @@ public class FlappingState : PlayerState
     private Vector3 flapForceDirection = new Vector3(1f, 2f, 0f).normalized;
     private Vector3 upWard = new Vector3(0f, 2f, 0f).normalized;
     private float gravity = 0.5f;
-    public float maxSpeed = 8f;
+    public float maxSpeed = 9f;
 
     private Transform leftController;
     private Transform rightController;
@@ -21,7 +21,7 @@ public class FlappingState : PlayerState
     private float lastSwingTime = 0f;
     private Quaternion lastLeftRotation;
     private Quaternion lastRightRotation;
-    private float xRotationThreshold = 15f; // 挥动检测阈值
+    private float xRotationThreshold = 12f; // 挥动检测阈值
 
     public float forceMagnitude = 0.2f;
 
