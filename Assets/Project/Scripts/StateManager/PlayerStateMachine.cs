@@ -22,7 +22,7 @@ public class PlayerStateMachine: MonoBehaviour
         if(currentPlayerState != null) currentPlayerState.EnterState();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if(currentPlayerState != null) currentPlayerState.UpdateLogic();
     }
